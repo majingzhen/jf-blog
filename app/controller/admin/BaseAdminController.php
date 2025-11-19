@@ -24,7 +24,8 @@ class BaseAdminController extends BaseController
         $adminUserId = Session::get('admin_user_id');
         if (!$adminUserId) {
             // 如果未登录，重定向到登录页
-            return redirect(url('admin.Login/index'));
+            redirect(url('admin.Login/index'))->send();
+            exit;
         }
 
         // 获取用户信息并存储
@@ -32,7 +33,8 @@ class BaseAdminController extends BaseController
         if (!$this->adminUser) {
             // 如果Session中的用户ID无效，也重定向到登录页
             Session::delete('admin_user_id');
-            return redirect(url('admin.Login/index'));
+            redirect(url('admin.Login/index'))->send();
+            exit;
         }
 
         // 将用户信息传递给视图

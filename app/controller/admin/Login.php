@@ -19,7 +19,7 @@ class Login extends BaseController
         }
 
         // 显示登录表单
-        return View::fetch('admin/login');
+        return View::fetch('/login');
     }
 
     public function doLogin()
