@@ -66,3 +66,5 @@ Route::group('admin', function () {
         Route::post('/upload/image', 'admin.Upload/image');
     }); // 登录验证由 BaseAdminController 处理
 });
+
+Route::auto();

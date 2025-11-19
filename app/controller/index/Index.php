@@ -4,12 +4,12 @@
 namespace app\controller\index;
 
 use app\BaseController;
-use app\model\Post;
 use app\model\Category;
-use app\model\Tag;
 use app\model\Config as ConfigModel;
-use think\facade\View;
+use app\model\Post;
+use app\model\Tag;
 use think\facade\Request;
+use think\facade\View;
 
 class Index extends BaseController
 {
@@ -49,7 +49,7 @@ class Index extends BaseController
         View::assign('description', $description ?? '');
         View::assign('posts', $posts);
 
-        return View::fetch('/index');
+        return View::fetch('index/index');
     }
 
     public function post($slug)
