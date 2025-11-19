@@ -1,0 +1,57 @@
+<?php
+// view/index/tag.html
+View::share('title', $title ?? '');
+View::share('keywords', $keywords ?? '');
+View::share('description', $description ?? '');
+?>
+
+<!-- 主要内容 -->
+<div class="row">
+    <div class="col-md-8">
+        <h2>标签: <?php echo htmlspecialchars($tag['name']); ?></h2>
+        <?php foreach ($posts as $post): ?>
+        <div class="post-card">
+            <h3><a href="<?php echo url('index.Index/post', ['slug' => $post['slug']]); ?>"><?php echo htmlspecialchars($post['title']); ?></a></h3>
+            <p class="text-muted">发布于 <?php echo $post['published_at_text']; ?></p>
+            <?php if ($post['summary']): ?>
+                <p><?php echo htmlspecialchars($post['summary']); ?></p>
+            <?php endif; ?>
+        </div>
+        <?php endforeach; ?>
+
+        <!-- 分页 -->
+        <div class="d-flex justify-content-center">
+            <?php echo $posts->render(); ?>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <!-- 侧边栏 -->
+        <div class="card">
+            <div class="card-header">
+                <h5>分类</h5>
+            </div>
+            <div class="card-body">
+                <?php
+                $categories = \app\model\Category::select();
+                foreach ($categories as $category):
+                ?>
+                    <div><a href="<?php echo url('index.Index/category', ['slug' => $category['slug']]); ?>"><?php echo htmlspecialchars($category['name']); ?></a></div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+
+        <div class="card mt-3">
+            <div class="card-header">
+                <h5>标签</h5>
+            </div>
+            <div class="card-body">
+                <?php
+                $tags = \app\model\Tag::select();
+                foreach ($tags as $t):
+                ?>
+                    <a href="<?php echo url('index.Index/tag', ['slug' => $t['slug']]); ?>" class="badge bg-light text-dark text-decoration-none m-1" <?php echo $t['id'] == $tag['id'] ? 'style="font-weight: bold;"' : ''; ?>><?php echo htmlspecialchars($t['name']); ?></a>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
+</div>
