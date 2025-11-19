@@ -49,7 +49,7 @@ class Index extends BaseController
         View::assign('description', $description ?? '');
         View::assign('posts', $posts);
 
-        return View::fetch('index/index');
+        return View::fetch('/index');
     }
 
     public function post($slug)
