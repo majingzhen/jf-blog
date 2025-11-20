@@ -20,7 +20,7 @@ class Category extends BaseAdminController
             'categories' => $categories
         ]);
 
-        return View::fetch('admin/category/index');
+        return View::fetch('category/index');
     }
 
     public function create()

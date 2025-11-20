@@ -20,7 +20,7 @@ class Tag extends BaseAdminController
             'tags' => $tags
         ]);
 
-        return View::fetch('admin/tag/index');
+        return View::fetch('tag/index');
     }
 
     public function create()
