@@ -48,6 +48,6 @@ class Login extends BaseController
     public function logout()
     {
         Session::delete('admin_user_id');
-        return redirect(url('/admin/login'));
+        return redirect(url('/admin/index'));
     }
 }

@@ -36,7 +36,7 @@ class Category extends BaseAdminController
         // 编辑分类页
         $category = CategoryModel::find($id);
         if (!$category) {
-            return redirect(url('admin.Category/index'))->with('error', '分类不存在');
+            return redirect(url('/admin/category/index'))->with('error', '分类不存在');
         }
 
         $title = '编辑分类 - JF-Blog 后台';
@@ -45,7 +45,7 @@ class Category extends BaseAdminController
             'category' => $category
         ]);
 
-        return View::fetch('admin/category/edit');
+        return View::fetch('/admin/category/edit');
     }
 
     public function save()
@@ -63,21 +63,21 @@ class Category extends BaseAdminController
 
         $validate = new \think\Validate($validateRules);
         if (!$validate->check($data)) {
-            return redirect(url('admin.Category/index'))->with('error', $validate->getError());
+            return redirect(url('/admin/category/index'))->with('error', $validate->getError());
         }
 
         if ($categoryId) {
             // 更新
             $category = CategoryModel::find($categoryId);
             if (!$category) {
-                return redirect(url('admin.Category/index'))->with('error', '分类不存在');
+                return redirect(url('/admin/category/index'))->with('error', '分类不存在');
             }
             $category->save([
                 'name' => $data['name'],
                 'slug' => $data['slug'],
                 'description' => $data['description']
             ]);
-            return redirect(url('admin.Category/index'));
+            return redirect(url('/admin/category/index'));
         } else {
             // 创建
             $category = new CategoryModel();
@@ -86,7 +86,7 @@ class Category extends BaseAdminController
                 'slug' => $data['slug'],
                 'description' => $data['description']
             ]);
-            return redirect(url('admin.Category/index'));
+            return redirect(url('/admin/category/index'));
         }
     }
 
@@ -95,16 +95,16 @@ class Category extends BaseAdminController
         // 删除分类
         $category = CategoryModel::find($id);
         if (!$category) {
-            return redirect(url('admin.Category/index'))->with('error', '分类不存在');
+            return redirect(url('/admin/category/index'))->with('error', '分类不存在');
         }
 
         // 检查该分类下是否有文章，如果有，不允许删除或先处理文章
         $postCount = \app\model\Post::where('category_id', $id)->count();
         if ($postCount > 0) {
-            return redirect(url('admin.Category/index'))->with('error', '该分类下有文章，无法删除。请先将文章移至其他分类或删除文章。');
+            return redirect(url('/admin/category/index'))->with('error', '该分类下有文章，无法删除。请先将文章移至其他分类或删除文章。');
         }
 
         $category->delete();
-        return redirect(url('admin.Category/index'));
+        return redirect(url('/admin/category/index'));
     }
 }

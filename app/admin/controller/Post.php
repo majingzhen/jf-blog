@@ -34,7 +34,7 @@ class Post extends BaseAdminController
             'tags' => $tags
         ]);
 
-        return View::fetch('create');
+        return View::fetch('admin/create');
     }
 
     public function edit($id)
@@ -42,7 +42,7 @@ class Post extends BaseAdminController
         // 编辑文章页
         $post = PostModel::with('tags')->find($id);
         if (!$post) {
-            return redirect(url('admin.Post/index'))->with('error', '文章不存在');
+            return redirect(url('/admin/post/index'))->with('error', '文章不存在');
         }
 
         $title = '编辑文章 - JF-Blog 后台';
@@ -58,7 +58,7 @@ class Post extends BaseAdminController
             'selectedTagIds' => $selectedTagIds
         ]);
 
-        return View::fetch('edit');
+        return View::fetch('/admin/edit');
     }
 
     public function save()
@@ -78,14 +78,14 @@ class Post extends BaseAdminController
 
         $validate = new \think\Validate($validateRules);
         if (!$validate->check($data)) {
-            return redirect(url('admin.Post/index'))->with('error', $validate->getError());
+            return redirect(url('/admin/post/index'))->with('error', $validate->getError());
         }
 
         if ($postId) {
             // 更新
             $post = PostModel::find($postId);
             if (!$post) {
-                return redirect(url('admin.Post/index'))->with('error', '文章不存在');
+                return redirect(url('/admin/post/index'))->with('error', '文章不存在');
             }
             $post->save([
                 'title' => $data['title'],
@@ -106,7 +106,7 @@ class Post extends BaseAdminController
                 $post->tags()->detach(); // 如果未选择标签，则清空关联
             }
 
-            return redirect(url('admin.Post/index'));
+            return redirect(url('/admin/post/index'));
         } else {
             // 创建
             $post = new PostModel();
@@ -127,7 +127,7 @@ class Post extends BaseAdminController
                 $post->tags()->attach($data['tag_ids']);
             }
 
-            return redirect(url('admin.Post/index'));
+            return redirect(url('/admin/post/index'));
         }
     }
 
@@ -136,13 +136,13 @@ class Post extends BaseAdminController
         // 删除文章 (软删除或真删除，这里用真删除做示例)
         $post = PostModel::find($id);
         if (!$post) {
-            return redirect(url('admin.Post/index'))->with('error', '文章不存在');
+            return redirect(url('/admin/post/index'))->with('error', '文章不存在');
         }
 
         // 删除关联的标签关系
         $post->tags()->detach();
 
         $post->delete();
-        return redirect(url('admin.Post/index'));
+        return redirect(url('/admin/post/index'));
     }
 }

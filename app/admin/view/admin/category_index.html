@@ -28,22 +28,22 @@
                 <h5 class="text-white">JF-Blog Admin</h5>
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="<?php echo url('admin.Index/index'); ?>">仪表盘</a>
+                        <a class="nav-link text-white" href="<?php echo url('/admin/index/index'); ?>">仪表盘</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="<?php echo url('admin.Post/index'); ?>">文章管理</a>
+                        <a class="nav-link text-white" href="<?php echo url('/admin/post/index'); ?>">文章管理</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active text-white" href="<?php echo url('admin.Category/index'); ?>">分类管理</a>
+                        <a class="nav-link active text-white" href="<?php echo url('/admin/category/index'); ?>">分类管理</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="<?php echo url('admin.Tag/index'); ?>">标签管理</a>
+                        <a class="nav-link text-white" href="<?php echo url('/admin/tag/index'); ?>">标签管理</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="<?php echo url('admin.Config/index'); ?>">系统配置</a>
+                        <a class="nav-link text-white" href="<?php echo url('/admin/config/index'); ?>">系统配置</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="<?php echo url('admin.Login/logout'); ?>">退出登录</a>
+                        <a class="nav-link text-white" href="<?php echo url('/admin/login/logout'); ?>">退出登录</a>
                     </li>
                 </ul>
             </nav>
@@ -53,7 +53,7 @@
                 <div class="container-fluid">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h1><?php echo $title; ?></h1>
-                        <a href="<?php echo url('admin.Category/create'); ?>" class="btn btn-primary">新建分类</a>
+                        <a href="<?php echo url('/admin/category/create'); ?>" class="btn btn-primary">新建分类</a>
                     </div>
 
                     <div class="table-responsive">
@@ -84,8 +84,8 @@
                                     </td>
                                     <td><?php echo $category['created_at']; ?></td>
                                     <td>
-                                        <a href="<?php echo url('admin.Category/edit', ['id' => $category['id']]); ?>" class="btn btn-sm btn-outline-primary">编辑</a>
-                                        <a href="<?php echo url('admin.Category/delete', ['id' => $category['id']]); ?>" 
+                                        <a href="<?php echo url('/admin/category/edit', ['id' => $category['id']]); ?>" class="btn btn-sm btn-outline-primary">编辑</a>
+                                        <a href="<?php echo url('/admin/category/delete', ['id' => $category['id']]); ?>"
                                            class="btn btn-sm btn-outline-danger" 
                                            onclick="return confirm('确定要删除这个分类吗？')">删除</a>
                                     </td>

@@ -17,6 +17,6 @@ class Index extends BaseAdminController
         // 文章列表页
         $page = Request::param('page', 1);
         $posts = PostModel::with('category')->order('created_at', 'desc')->paginate(10, false, ['page' => $page]);
-        return View::fetch('/admin/index', ['posts' => $posts, 'title' => $title]);
+        return View::fetch('admin/index', ['posts' => $posts, 'title' => $title]);
     }
 }

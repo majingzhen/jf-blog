@@ -36,7 +36,7 @@ class Tag extends BaseAdminController
         // 编辑标签页
         $tag = TagModel::find($id);
         if (!$tag) {
-            return redirect(url('admin.Tag/index'))->with('error', '标签不存在');
+            return redirect(url('/admin/tag/index'))->with('error', '标签不存在');
         }
 
         $title = '编辑标签 - JF-Blog 后台';
@@ -45,7 +45,7 @@ class Tag extends BaseAdminController
             'tag' => $tag
         ]);
 
-        return View::fetch('admin/tag/edit');
+        return View::fetch('/admin/tag/edit');
     }
 
     public function save()
@@ -62,20 +62,20 @@ class Tag extends BaseAdminController
 
         $validate = new \think\Validate($validateRules);
         if (!$validate->check($data)) {
-            return redirect(url('admin.Tag/index'))->with('error', $validate->getError());
+            return redirect(url('/admin/tag/index'))->with('error', $validate->getError());
         }
 
         if ($tagId) {
             // 更新
             $tag = TagModel::find($tagId);
             if (!$tag) {
-                return redirect(url('admin.Tag/index'))->with('error', '标签不存在');
+                return redirect(url('/admin/tag/index'))->with('error', '标签不存在');
             }
             $tag->save([
                 'name' => $data['name'],
                 'slug' => $data['slug']
             ]);
-            return redirect(url('admin.Tag/index'));
+            return redirect(url('/admin/tag/index'));
         } else {
             // 创建
             $tag = new TagModel();
@@ -83,7 +83,7 @@ class Tag extends BaseAdminController
                 'name' => $data['name'],
                 'slug' => $data['slug']
             ]);
-            return redirect(url('admin.Tag/index'));
+            return redirect(url('/admin/tag/index'));
         }
     }
 
@@ -93,7 +93,7 @@ class Tag extends BaseAdminController
         $tag = TagModel::find($id);
         if (!$tag) {
             View::assign('error', '标签不存在');
-            return View::fetch('admin/error');
+            return View::fetch('/admin/error');
         }
 
         // 删除关联关系，再删除标签本身
@@ -105,6 +105,6 @@ class Tag extends BaseAdminController
         // \think\facade\Db::name('post_tag')->where('tag_id', $id)->delete();
 
         $tag->delete();
-        return redirect(url('admin.Tag/index'));
+        return redirect(url('/admin/tag/index'));
     }
 }

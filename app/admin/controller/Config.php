@@ -24,7 +24,7 @@ class Config extends BaseAdminController
             'config' => $configMap
         ]);
 
-        return View::fetch('admin/config/index');
+        return View::fetch('/admin/config/index');
     }
 
     public function save()
@@ -74,9 +74,9 @@ class Config extends BaseAdminController
                 $this->updateOrCreateConfig('blog_logo', $logoPath);
             }
 
-            return redirect(url('admin.Config/index'));
+            return redirect(url('/admin/config/index'));
         } else {
-            return redirect(url('admin.Config/index'))->with('error', implode('<br>', $errors));
+            return redirect(url('/admin/config/index'))->with('error', implode('<br>', $errors));
         }
     }
 
