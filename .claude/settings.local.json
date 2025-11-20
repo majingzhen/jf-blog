@@ -4,7 +4,12 @@
       "mcp__filesystem__directory_tree",
       "mcp__filesystem__read_text_file",
       "mcp__filesystem__edit_file",
-      "mcp__filesystem__list_directory"
+      "mcp__filesystem__list_directory",
+      "Bash(php:*)",
+      "mcp__deepwiki__ask_question",
+      "WebSearch",
+      "Bash(nul)",
+      "Bash(dir:*)"
     ],
     "deny": [],
     "ask": []

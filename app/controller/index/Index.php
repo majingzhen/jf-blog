@@ -38,18 +38,12 @@ class Index extends BaseController
         $keywords = $this->config['blog_keywords'];
         $description = $this->config['blog_description'];
 
-//        View::assign([
-//            'title' => $title,
-//            'keywords' => $keywords,
-//            'description' => $description,
-//            'posts' => $posts,
-//        ]);
         View::assign('title', $title ?? '');
         View::assign('keywords', $keywords ?? '');
         View::assign('description', $description ?? '');
         View::assign('posts', $posts);
 
-        return View::fetch('index/index');
+        return View::fetch();
     }
 
     public function post($slug)
@@ -75,7 +69,7 @@ class Index extends BaseController
             'post' => $post,
         ]);
 
-        return View::fetch('post');
+        return View::fetch();
     }
 
     public function category($slug)
@@ -102,7 +96,7 @@ class Index extends BaseController
             'posts' => $posts,
         ]);
 
-        return View::fetch('category');
+        return View::fetch();
     }
 
     public function tag($slug)
@@ -130,7 +124,7 @@ class Index extends BaseController
             'posts' => $posts,
         ]);
 
-        return View::fetch('tag');
+        return View::fetch();
     }
 
     public function archive()
@@ -155,6 +149,6 @@ class Index extends BaseController
             'archiveData' => $archiveData,
         ]);
 
-        return View::fetch('archive');
+        return View::fetch();
     }
 }
