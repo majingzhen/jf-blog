@@ -6,11 +6,10 @@
 
 {block name="content">
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
-    <h2>分类管理</h2>
     <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group me-2">
-            <a class="btn btn-sm btn-outline-secondary" href="{:url('/admin/post/create')}">
-                <i class="fas fa-plus"></i> 新建文章
+            <a class="btn btn-sm btn-outline-secondary" href="<?php echo url('/admin/category/create'); ?>">
+                <i class="fas fa-plus"></i> 新建分类
             </a>
         </div>
     </div>
@@ -37,8 +36,10 @@
                 <td>{$category.description|default='无描述'}</td>
                 <td>{$category.created_at|date='Y-m-d H:i:s'}</td>
                 <td>
-                    <a href="{:url('/admin/category/edit', ['id'=>$category.id])}" class="btn btn-sm btn-outline-primary">编辑</a>
-                    <a href="{:url('/admin/category/delete', ['id'=>$category.id])}" class="btn btn-sm btn-outline-danger" onclick="return confirm('确定要删除这个分类吗？')">删除</a>
+                    <a class="btn btn-sm btn-outline-primary"
+                       href="{:url('/admin/category/edit', ['id'=>$category['id']])}">编辑</a>
+                    <a class="btn btn-sm btn-outline-danger"
+                       href="{:url('/admin/category/delete', ['id'=>$category['id']])}" onclick="return confirm('确定要删除这个分类吗？')">删除</a>
                 </td>
             </tr>
             {/volist}

@@ -6,10 +6,9 @@
 
 {block name="content">
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
-    <h2>标签管理</h2>
     <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group me-2">
-            <a href="{:url('/admin/tag/create')}" class="btn btn-sm btn-outline-secondary">
+            <a class="btn btn-sm btn-outline-secondary" href="<?php echo url('/admin/tag/create'); ?>">
                 <i class="fas fa-plus"></i> 新建标签
             </a>
         </div>
@@ -35,8 +34,10 @@
                 <td>{$tag.slug}</td>
                 <td>{$tag.created_at|date='Y-m-d H:i:s'}</td>
                 <td>
-                    <a href="{:url('/admin/tag/edit', ['id'=>$tag.id])}" class="btn btn-sm btn-outline-primary">编辑</a>
-                    <a href="{:url('/admin/tag/delete', ['id'=>$tag.id])}" class="btn btn-sm btn-outline-danger" onclick="return confirm('确定要删除这个标签吗？')">删除</a>
+                    <a class="btn btn-sm btn-outline-primary"
+                       href="<?php echo url('/admin/tag/edit', ['id'=>$tag['id']]); ?>">编辑</a>
+                    <a class="btn btn-sm btn-outline-danger"
+                       href="<?php echo url('/admin/tag/delete', ['id'=>$tag['id']]); ?>" onclick="return confirm('确定要删除这个标签吗？')">删除</a>
                 </td>
             </tr>
             {/volist}

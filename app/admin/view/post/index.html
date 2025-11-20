@@ -6,10 +6,9 @@
 
 {block name="content"}
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
-    <h2>文章管理</h2>
     <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group me-2">
-            <a class="btn btn-sm btn-outline-secondary" href="{:url('/admin/post/create')}">
+            <a class="btn btn-sm btn-outline-secondary" href="<?php echo url('/admin/post/create'); ?>">
                 <i class="fas fa-plus"></i> 新建文章
             </a>
         </div>
@@ -45,8 +44,10 @@
             <td>{$post.published_at|default='未发布'}</td>
             <td>{$post.created_at|date='Y-m-d H:i:s'}</td>
             <td>
-                <a class="btn btn-sm btn-outline-primary" href="{:url('/admin/post/edit', ['id'=>$post.id])}">编辑</a>
-                <a class="btn btn-sm btn-outline-danger" href="{:url('/admin/post/delete', ['id'=>$post.id])}"
+                <a class="btn btn-sm btn-outline-primary"
+                   href="<?php echo url('/admin/post/edit', ['id'=>$post['id']]); ?>">编辑</a>
+                <a class="btn btn-sm btn-outline-danger"
+                   href="<?php echo url('/admin/post/delete', ['id'=>$post['id']]); ?>"
                    onclick="return confirm('确定要删除这篇文章吗？')">删除</a>
             </td>
         </tr>

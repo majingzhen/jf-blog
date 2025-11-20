@@ -12,7 +12,9 @@
       "Bash(dir:*)",
       "mcp__filesystem__create_directory",
       "mcp__filesystem__write_file",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "mcp__filesystem__search_files",
+      "Bash(find:*)"
     ],
     "deny": [],
     "ask": []

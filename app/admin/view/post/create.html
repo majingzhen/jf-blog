@@ -12,7 +12,7 @@
                 <h3 class="card-title">{$title|default='新建文章'}</h3>
             </div>
             <div class="card-body">
-                <form action="{:url('/admin/post/save')}" method="post">
+                <form action="<?php echo url('/admin/post/save'); ?>" method="post">
                     <div class="mb-3">
                         <label class="form-label" for="title">文章标题</label>
                         <input class="form-control" id="title" name="title" required type="text">
@@ -89,7 +89,7 @@
 
                     <div class="mb-3">
                         <button class="btn btn-primary" type="submit">保存</button>
-                        <a class="btn btn-secondary" href="{:url('/admin/post/index')}">返回</a>
+                        <a class="btn btn-secondary" href="<?php echo url('/admin/post/index'); ?>">返回</a>
                     </div>
                 </form>
             </div>
