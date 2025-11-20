@@ -20,7 +20,7 @@ class Tag extends BaseAdminController
             'tags' => $tags
         ]);
 
-        return View::fetch('index');
+        return View::fetch('admin/tag/index');
     }
 
     public function create()
@@ -28,7 +28,7 @@ class Tag extends BaseAdminController
         // 创建标签页
         $title = '新建标签 - JF-Blog 后台';
         View::assign('title', $title);
-        return View::fetch('create');
+        return View::fetch('admin/tag/create');
     }
 
     public function edit($id)
@@ -45,7 +45,7 @@ class Tag extends BaseAdminController
             'tag' => $tag
         ]);
 
-        return View::fetch('edit');
+        return View::fetch('admin/tag/edit');
     }
 
     public function save()
@@ -93,7 +93,7 @@ class Tag extends BaseAdminController
         $tag = TagModel::find($id);
         if (!$tag) {
             View::assign('error', '标签不存在');
-            return View::fetch('error');
+            return View::fetch('admin/error');
         }
 
         // 删除关联关系，再删除标签本身

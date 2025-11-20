@@ -18,7 +18,7 @@ class Post extends BaseAdminController
         $posts = PostModel::with('category')->order('created_at', 'desc')->paginate(10, false, ['page' => $page]);
         $title = '文章管理 - JF-Blog 后台';
 
-        return view('index_post', ['posts' => $posts, 'title' => $title]);
+        return View::fetch('admin/index_post', ['posts' => $posts, 'title' => $title]);
     }
 
     public function create()

@@ -15,7 +15,7 @@ class Login extends BaseController
     {
         // 如果已登录，直接跳转到后台首页
         if (Session::get('admin_user_id')) {
-            return redirect(url('/admin'));
+            return redirect(url('/admin/index'));
         }
 
         // 显示登录表单
@@ -39,11 +39,9 @@ class Login extends BaseController
             View::assign('error', '用户名或密码错误');
             return View::fetch('/admin/login');
         }
-        dump($user);
 
         // 登录成功，保存用户ID到Session
         Session::set('admin_user_id', $user->id);
-
         return redirect(url('/admin/index'));
     }
 

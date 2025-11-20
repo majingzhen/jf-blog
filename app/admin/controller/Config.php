@@ -24,7 +24,7 @@ class Config extends BaseAdminController
             'config' => $configMap
         ]);
 
-        return View::fetch('index');
+        return View::fetch('admin/config/index');
     }
 
     public function save()

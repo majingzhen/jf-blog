@@ -20,7 +20,7 @@ class Category extends BaseAdminController
             'categories' => $categories
         ]);
 
-        return View::fetch('index');
+        return View::fetch('admin/category/index');
     }
 
     public function create()
@@ -28,7 +28,7 @@ class Category extends BaseAdminController
         // 创建分类页
         $title = '新建分类 - JF-Blog 后台';
         View::assign('title', $title);
-        return View::fetch('create');
+        return View::fetch('admin/category/create');
     }
 
     public function edit($id)
@@ -45,7 +45,7 @@ class Category extends BaseAdminController
             'category' => $category
         ]);
 
-        return View::fetch('edit');
+        return View::fetch('admin/category/edit');
     }
 
     public function save()
