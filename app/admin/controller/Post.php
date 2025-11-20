@@ -3,11 +3,11 @@
 
 namespace app\admin\controller;
 
-use app\model\Post as PostModel;
 use app\model\Category;
+use app\model\Post as PostModel;
 use app\model\Tag;
-use think\facade\View;
 use think\facade\Request;
+use think\facade\View;
 
 class Post extends BaseAdminController
 {
@@ -18,7 +18,7 @@ class Post extends BaseAdminController
         $posts = PostModel::with('category')->order('created_at', 'desc')->paginate(10, false, ['page' => $page]);
         $title = '文章管理 - JF-Blog 后台';
 
-        return View::fetch('admin/index_post', ['posts' => $posts, 'title' => $title]);
+        return View::fetch('post/index', ['posts' => $posts, 'title' => $title]);
     }
 
     public function create()
@@ -34,7 +34,7 @@ class Post extends BaseAdminController
             'tags' => $tags
         ]);
 
-        return View::fetch('admin/create');
+        return View::fetch('post/create');
     }
 
     public function edit($id)
@@ -58,7 +58,7 @@ class Post extends BaseAdminController
             'selectedTagIds' => $selectedTagIds
         ]);
 
-        return View::fetch('/admin/edit');
+        return View::fetch('post/edit');
     }
 
     public function save()

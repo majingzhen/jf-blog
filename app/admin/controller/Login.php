@@ -19,7 +19,7 @@ class Login extends BaseController
         }
 
         // 显示登录表单
-        return View::fetch('/admin/login');
+        return View::fetch('admin/login');
     }
 
     public function doLogin()
@@ -30,14 +30,14 @@ class Login extends BaseController
         if (!$username || !$password) {
             // 传递错误信息到视图
             View::assign('error', '用户名和密码不能为空');
-            return View::fetch('/admin/login');
+            return View::fetch('admin/login');
         }
 
         // 查找用户
         $user = User::where('username', $username)->find();
         if (!$user || !password_verify($password, $user->password)) {
             View::assign('error', '用户名或密码错误');
-            return View::fetch('/admin/login');
+            return View::fetch('admin/login');
         }
 
         // 登录成功，保存用户ID到Session

@@ -4,8 +4,8 @@
 namespace app\admin\controller;
 
 use app\model\Tag as TagModel;
-use think\facade\View;
 use think\facade\Request;
+use think\facade\View;
 
 class Tag extends BaseAdminController
 {
@@ -28,7 +28,7 @@ class Tag extends BaseAdminController
         // 创建标签页
         $title = '新建标签 - JF-Blog 后台';
         View::assign('title', $title);
-        return View::fetch('admin/tag/create');
+        return View::fetch('tag/create');
     }
 
     public function edit($id)
@@ -45,7 +45,7 @@ class Tag extends BaseAdminController
             'tag' => $tag
         ]);
 
-        return View::fetch('/admin/tag/edit');
+        return View::fetch('tag/edit');
     }
 
     public function save()
@@ -93,7 +93,7 @@ class Tag extends BaseAdminController
         $tag = TagModel::find($id);
         if (!$tag) {
             View::assign('error', '标签不存在');
-            return View::fetch('/admin/error');
+            return View::fetch('admin/error');
         }
 
         // 删除关联关系，再删除标签本身

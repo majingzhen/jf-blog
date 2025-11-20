@@ -4,8 +4,8 @@
 namespace app\admin\controller;
 
 use app\model\Category as CategoryModel;
-use think\facade\View;
 use think\facade\Request;
+use think\facade\View;
 
 class Category extends BaseAdminController
 {
@@ -28,7 +28,7 @@ class Category extends BaseAdminController
         // 创建分类页
         $title = '新建分类 - JF-Blog 后台';
         View::assign('title', $title);
-        return View::fetch('admin/category/create');
+        return View::fetch('category/create');
     }
 
     public function edit($id)
@@ -45,7 +45,7 @@ class Category extends BaseAdminController
             'category' => $category
         ]);
 
-        return View::fetch('/admin/category/edit');
+        return View::fetch('category/edit');
     }
 
     public function save()

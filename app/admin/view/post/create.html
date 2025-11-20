@@ -1,0 +1,99 @@
+{extend name="layout/main" /}
+
+{block name="title"}新建文章 - JF-Blog 后台{/block}
+
+{block name="page_title"}新建文章{/block}
+
+{block name="content"}
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">{$title|default='新建文章'}</h3>
+            </div>
+            <div class="card-body">
+                <form action="{:url('/admin/post/save')}" method="post">
+                    <div class="mb-3">
+                        <label class="form-label" for="title">文章标题</label>
+                        <input class="form-control" id="title" name="title" required type="text">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" for="slug">文章别名（URL友好）</label>
+                        <input class="form-control" id="slug" name="slug" type="text">
+                        <div class="form-text">不填则自动生成</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label" for="category_id">分类</label>
+                                <select class="form-control" id="category_id" name="category_id" required>
+                                    <option value="">-- 请选择分类 --</option>
+                                    {volist name="categories" id="cat"}
+                                    <option value="{$cat.id}">{$cat.name}</option>
+                                    {/volist}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label" for="status">状态</label>
+                                <select class="form-control" id="status" name="status">
+                                    <option value="draft">草稿</option>
+                                    <option value="published">发布</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" for="summary">摘要</label>
+                        <textarea class="form-control" id="summary" name="summary" rows="3"></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" for="content">文章内容</label>
+                        <textarea class="form-control" id="content" name="content" required rows="10"></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" for="tag_ids">标签</label>
+                        <div id="tag_ids">
+                            {volist name="tags" id="tag"}
+                            <div class="form-check">
+                                <input class="form-check-input" id="tag_{$tag.id}" name="tag_ids[]" type="checkbox"
+                                       value="{$tag.id}">
+                                <label class="form-check-label" for="tag_{$tag.id}">
+                                    {$tag.name}
+                                </label>
+                            </div>
+                            {/volist}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label" for="seo_keywords">SEO 关键词</label>
+                                <input class="form-control" id="seo_keywords" name="seo_keywords" type="text">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label" for="seo_description">SEO 描述</label>
+                                <input class="form-control" id="seo_description" name="seo_description" type="text">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <button class="btn btn-primary" type="submit">保存</button>
+                        <a class="btn btn-secondary" href="{:url('/admin/post/index')}">返回</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
