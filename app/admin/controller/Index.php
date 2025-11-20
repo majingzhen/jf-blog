@@ -1,7 +1,7 @@
 <?php
-// app/controller/admin/Index.php
+// app/admin/controller/Index.php
 
-namespace app\controller\admin;
+namespace app\admin\controller;
 
 use app\model\Post as PostModel;
 use think\facade\Request;

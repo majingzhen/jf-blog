@@ -1,7 +1,7 @@
 <?php
-// app/controller/admin/Tag.php
+// app/admin/controller/Tag.php
 
-namespace app\controller\admin;
+namespace app\admin\controller;
 
 use app\model\Tag as TagModel;
 use think\facade\View;

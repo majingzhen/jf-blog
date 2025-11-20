@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理员登录 - JF-Blog</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --background-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            min-height: 100vh;
+            background: var(--background-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+        }
+
+        .login-wrapper {
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .login-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--primary-color);
+        }
+
+        .login-logo {
+            margin-bottom: 25px;
+        }
+
+        .login-logo i {
+            font-size: 3.5rem;
+            color: var(--primary-color);
+            background: rgba(52, 152, 219, 0.1);
+            width: 90px;
+            height: 90px;
+            line-height: 90px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .login-card h2 {
+            color: var(--secondary-color);
+            font-weight: 700;
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+        }
+
+        .form-label {
+            text-align: left;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 8px;
+        }
+
+        .form-control {
+            height: 50px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            padding: 0 15px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #aaa;
+        }
+
+        .input-group .form-control {
+            padding-left: 45px;
+        }
+
+        .btn-login {
+            background: var(--primary-color);
+            border: none;
+            height: 50px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+        }
+
+        .btn-login:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.3);
+        }
+
+        .error-message {
+            background: rgba(231, 76, 60, 0.1);
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            border-radius: 8px;
+            padding: 12px 15px;
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .error-message i {
+            font-size: 1.2rem;
+        }
+
+        .form-footer {
+            margin-top: 20px;
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 576px) {
+            .login-card {
+                padding: 30px 20px;
+            }
+
+            .login-wrapper {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-wrapper">
+        <div class="login-card">
+            <div class="login-logo">
+                <i class="bi bi-shield-lock"></i>
+                <h2>JF-Blog 管理登录</h2>
+            </div>
+
+            <form action="<?php echo url('/admin/login/doLogin'); ?>" method="post">
+                <div class="input-group">
+                    <i class="bi bi-person"></i>
+                    <input type="text" class="form-control" id="username" name="username" placeholder="请输入用户名" required>
+                </div>
+
+                <div class="input-group">
+                    <i class="bi bi-key"></i>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="请输入密码" required>
+                </div>
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-login">
+                        <i class="bi bi-box-arrow-in-right me-2"></i>登录
+                    </button>
+                </div>
+            </form>
+
+            <?php if (isset($error)): ?>
+            <div class="error-message mt-3">
+                <i class="bi bi-exclamation-triangle"></i>
+                <span><?php echo $error; ?></span>
+            </div>
+            <?php endif; ?>
+
+            <div class="form-footer">
+                <p>安全管理系统 &copy; <?php echo date('Y'); ?></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,7 +1,7 @@
 <?php
-// app/controller/admin/Config.php
+// app/admin/controller/Config.php
 
-namespace app\controller\admin;
+namespace app\admin\controller;
 
 use app\model\Config as ConfigModel;
 use think\facade\View;

@@ -1,7 +1,7 @@
 <?php
-// app/controller/admin/Upload.php
+// app/admin/controller/Upload.php
 
-namespace app\controller\admin;
+namespace app\admin\controller;
 
 use think\facade\Request;
 use think\facade\Filesystem;

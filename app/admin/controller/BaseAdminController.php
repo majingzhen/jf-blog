@@ -1,9 +1,9 @@
 <?php
-// app/controller/admin/BaseAdminController.php
+// app/admin/controller/BaseAdminController.php
 
-namespace app\controller\admin;
+namespace app\admin\controller;
 
-use app\BaseController;
+use app\admin\BaseController;
 use think\facade\Session;
 use think\facade\View;
 
@@ -22,9 +22,10 @@ class BaseAdminController extends BaseController
     protected function checkLogin()
     {
         $adminUserId = Session::get('admin_user_id');
+        dump($adminUserId);
         if (!$adminUserId) {
             // 如果未登录，重定向到登录页
-            redirect(url('admin.Login/index'))->send();
+            redirect(url('/admin/login'))->send();
             exit;
         }
 
@@ -33,7 +34,7 @@ class BaseAdminController extends BaseController
         if (!$this->adminUser) {
             // 如果Session中的用户ID无效，也重定向到登录页
             Session::delete('admin_user_id');
-            redirect(url('admin.Login/index'))->send();
+            redirect(url('/admin/login'))->send();
             exit;
         }
 

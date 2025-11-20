@@ -1,7 +1,7 @@
 <?php
-// app/controller/admin/Category.php
+// app/admin/controller/Category.php
 
-namespace app\controller\admin;
+namespace app\admin\controller;
 
 use app\model\Category as CategoryModel;
 use think\facade\View;

@@ -1,7 +1,7 @@
 <?php
-// app/controller/admin/Post.php
+// app/admin/controller/Post.php
 
-namespace app\controller\admin;
+namespace app\admin\controller;
 
 use app\model\Post as PostModel;
 use app\model\Category;

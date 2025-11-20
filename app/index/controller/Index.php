@@ -1,9 +1,9 @@
 <?php
-// app/controller/index/Index.php
+// app/index/controller/Index.php
 
-namespace app\controller\index;
+namespace app\index\controller;
 
-use app\BaseController;
+use app\index\BaseController;
 use app\model\Category;
 use app\model\Config as ConfigModel;
 use app\model\Post;
