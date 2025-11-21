@@ -42,6 +42,8 @@ class Index extends BaseController
         View::assign('keywords', $keywords ?? '');
         View::assign('description', $description ?? '');
         View::assign('posts', $posts);
+        View::assign('keyword', ''); // 默认为空，用于搜索框
+        View::assign('blog_stats', $this->getBlogStats());
 
         return View::fetch();
     }
@@ -67,6 +69,7 @@ class Index extends BaseController
             'keywords' => $keywords,
             'description' => $description,
             'post' => $post,
+            'blog_stats' => $this->getBlogStats(),
         ]);
 
         return View::fetch();
@@ -94,6 +97,7 @@ class Index extends BaseController
             'description' => $description,
             'category' => $category,
             'posts' => $posts,
+            'blog_stats' => $this->getBlogStats(),
         ]);
 
         return View::fetch();
@@ -122,6 +126,7 @@ class Index extends BaseController
             'description' => $description,
             'tag' => $tag,
             'posts' => $posts,
+            'blog_stats' => $this->getBlogStats(),
         ]);
 
         return View::fetch();
@@ -147,6 +152,40 @@ class Index extends BaseController
             'keywords' => $keywords,
             'description' => $description,
             'archiveData' => $archiveData,
+            'blog_stats' => $this->getBlogStats(),
+        ]);
+
+        return View::fetch();
+    }
+
+    public function search()
+    {
+        // 搜索页面
+        $keyword = Request::param('keyword', '');
+        $page = Request::param('page', 1);
+        $postsPerPage = (int)($this->config['posts_per_page'] ?? 10);
+
+        $posts = Post::with('category')
+            ->where('status', 'published')
+            ->where(function($query) use ($keyword) {
+                $query->where('title', 'like', '%' . $keyword . '%')
+                      ->whereOr('summary', 'like', '%' . $keyword . '%')
+                      ->whereOr('content', 'like', '%' . $keyword . '%');
+            })
+            ->order('published_at', 'desc')
+            ->paginate($postsPerPage, false, ['page' => $page]);
+
+        $title = '搜索结果 - ' . $this->config['blog_name'];
+        $keywords = $keyword . ',' . $this->config['blog_keywords'];
+        $description = '关于 "' . $keyword . '" 的搜索结果 - ' . $this->config['blog_description'];
+
+        View::assign([
+            'title' => $title,
+            'keywords' => $keywords,
+            'description' => $description,
+            'posts' => $posts,
+            'keyword' => $keyword,
+            'blog_stats' => $this->getBlogStats(),
         ]);
 
         return View::fetch();

@@ -36,22 +36,34 @@ class Config extends BaseAdminController
         $logoPath = $data['current_blog_logo'] ?? ''; // 默认使用当前路径
         if ($file && $file->isValid()) {
             // 验证文件类型和大小
-            if (!$file->checkMime(['image/jpeg', 'image/png', 'image/gif', 'image/webp'])) {
+            $allowedMimes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+            $originalMime = $file->getOriginalMime();
+            $actualMime = $file->getMime(); // 获取真实 MIME 类型
+
+            // 检查原始 MIME 类型和实际 MIME 类型是否都在允许范围内
+            if (!in_array($originalMime, $allowedMimes) || !in_array($actualMime, $allowedMimes)) {
                 $errors[] = '上传的文件类型不正确，仅支持 JPG、PNG、GIF、WebP 格式。';
-            } elseif ($file->getSize() > 2 * 1024 * 1024) { // 2MB 限制
-                $errors[] = '上传的文件大小不能超过 2MB。';
             } else {
-                // 移动文件到指定目录
-                $saveName = \think\facade\Filesystem::putFile('logo', $file, 'uniqid');
-                if ($saveName) {
-                    $logoPath = '/upload/' . $saveName; // 假设文件系统配置了正确的 public 访问路径
-                    // 如果有旧的 Logo 文件，可以考虑删除（可选）
-                    $oldLogoPath = $data['current_blog_logo'] ?? '';
-                    if ($oldLogoPath && file_exists('.' . $oldLogoPath)) {
-                        unlink('.' . $oldLogoPath);
-                    }
+                // 也可以额外检查文件扩展名
+                $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+                $extension = strtolower($file->extension());
+                if (!in_array($extension, $allowedExtensions)) {
+                    $errors[] = '上传的文件类型不正确，仅支持 JPG、PNG、GIF、WebP 格式。';
+                } elseif ($file->getSize() > 2 * 1024 * 1024) { // 2MB 限制
+                    $errors[] = '上传的文件大小不能超过 2MB。';
                 } else {
-                    $errors[] = 'Logo 文件上传失败。';
+                    // 移动文件到指定目录
+                    $saveName = \think\facade\Filesystem::putFile('logo', $file, 'uniqid');
+                    if ($saveName) {
+                        $logoPath = '/upload/' . $saveName; // 假设文件系统配置了正确的 public 访问路径
+                        // 如果有旧的 Logo 文件，可以考虑删除（可选）
+                        $oldLogoPath = $data['current_blog_logo'] ?? '';
+                        if ($oldLogoPath && file_exists('.' . $oldLogoPath)) {
+                            unlink('.' . $oldLogoPath);
+                        }
+                    } else {
+                        $errors[] = 'Logo 文件上传失败。';
+                    }
                 }
             }
         }

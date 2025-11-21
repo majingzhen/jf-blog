@@ -18,9 +18,22 @@ class Upload extends BaseAdminController
         }
 
         // 验证文件类型和大小
-        if (!$file->checkMime(['image/jpeg', 'image/png', 'image/gif', 'image/webp'])) {
+        $allowedMimes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+        $originalMime = $file->getOriginalMime();
+        $actualMime = $file->getMime(); // 获取真实 MIME 类型
+
+        // 检查原始 MIME 类型和实际 MIME 类型是否都在允许范围内
+        if (!in_array($originalMime, $allowedMimes) || !in_array($actualMime, $allowedMimes)) {
             return json(['success' => false, 'message' => '上传的文件类型不正确']);
         }
+
+        // 也可以额外检查文件扩展名
+        $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+        $extension = strtolower($file->extension());
+        if (!in_array($extension, $allowedExtensions)) {
+            return json(['success' => false, 'message' => '上传的文件类型不正确']);
+        }
+
         if ($file->getSize() > 5 * 1024 * 1024) { // 5MB 限制
             return json(['success' => false, 'message' => '上传的文件大小不能超过 5MB']);
         }

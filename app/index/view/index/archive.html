@@ -37,8 +37,22 @@
     </div>
 
     <div class="col-lg-4">
-        <!-- 分类侧边栏 -->
+        <!-- 博客统计信息 -->
         <div class="card sticky-top" style="top: 1rem;">
+            <div class="card-header">
+                <h5><i class="bi bi-info-circle"></i> 博客信息</h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled">
+                    <li><i class="bi bi-file-text"></i> 文章总数: <span class="badge bg-primary">{$blog_stats.total_posts}</span></li>
+                    <li><i class="bi bi-folder"></i> 分类总数: <span class="badge bg-success">{$blog_stats.total_categories}</span></li>
+                    <li><i class="bi bi-tags"></i> 标签总数: <span class="badge bg-warning text-dark">{$blog_stats.total_tags}</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 分类侧边栏 -->
+        <div class="card mt-3 sticky-top" style="top: 8rem;">
             <div class="card-header">
                 <h5><i class="bi bi-collection"></i> 分类</h5>
             </div>
@@ -47,9 +61,11 @@
                 $categories = \app\model\Category::select();
                 {/php}
                 {if !empty($categories)}
-                    {volist name="$categories" id="category"}
-                        <a href="{:url('/index/index/category', ['slug' => $category['slug']])}">{$category.name|htmlspecialchars}</a>
-                    {/volist}
+                    <div class="d-flex flex-wrap">
+                        {volist name="$categories" id="category"}
+                            <a href="{:url('/index/index/category', ['slug' => $category['slug']])}" class="me-2 mb-2" style="display: inline-block;">{$category.name|htmlspecialchars}</a>
+                        {/volist}
+                    </div>
                 {else}
                     <p class="text-muted mb-0">暂无分类</p>
                 {/if}
@@ -57,13 +73,13 @@
         </div>
 
         <!-- 标签侧边栏 -->
-        <div class="card mt-3 sticky-top" style="top: 15rem;">
+        <div class="card mt-3 sticky-top" style="top: 18rem;">
             <div class="card-header">
-                <h5><i class="bi bi-tags"></i> 标签</h5>
+                <h5><i class="bi bi-tags"></i> 热门标签</h5>
             </div>
             <div class="card-body">
                 {php}
-                $tags = \app\model\Tag::select();
+                $tags = \app\model\Tag::limit(20)->select();
                 {/php}
                 {if !empty($tags)}
                     {volist name="$tags" id="tag"}

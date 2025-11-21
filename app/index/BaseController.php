@@ -3,6 +3,9 @@ declare (strict_types = 1);
 
 namespace app\index;
 
+use app\model\Post;
+use app\model\Category;
+use app\model\Tag;
 use think\App;
 use think\exception\ValidateException;
 use think\Validate;
@@ -53,6 +56,19 @@ abstract class BaseController
     // 初始化
     protected function initialize()
     {}
+
+    /**
+     * 获取博客统计信息
+     * @return array
+     */
+    protected function getBlogStats()
+    {
+        return [
+            'total_posts' => Post::where('status', 'published')->count(),
+            'total_categories' => Category::count(),
+            'total_tags' => Tag::count(),
+        ];
+    }
 
     /**
      * 验证数据
