@@ -16,31 +16,287 @@
     <meta name="twitter:description" content="<?php echo $description ?? $config['blog_description']; ?>">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-bg: #f8f9fa;
+            --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            --card-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            scroll-behavior: smooth;
+        }
+
         body {
-            background-color: #f8f9fa;
+            background-color: var(--light-bg);
+            color: #333;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
         }
+
         .header {
-            background-color: #343a40;
+            background: linear-gradient(135deg, var(--primary-color) 0%, #34495e 100%);
             color: white;
-            padding: 1rem 0;
+            padding: 2rem 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-bottom: 3px solid var(--secondary-color);
         }
+
+        .header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
         .header a {
-            color: #ffc107;
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
         }
+
+        .header a:hover {
+            color: var(--secondary-color);
+        }
+
+        .header nav {
+            font-size: 0.95rem;
+        }
+
+        .header nav a {
+            margin: 0 1rem;
+            font-weight: 500;
+            border-bottom: 2px solid transparent;
+            padding-bottom: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .header nav a:hover {
+            border-bottom-color: var(--secondary-color);
+        }
+
+        .header .lead {
+            margin-top: 0.5rem;
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        main {
+            min-height: calc(100vh - 300px);
+        }
+
         .post-card {
             background: white;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
+            box-shadow: var(--card-shadow);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 4px solid var(--secondary-color);
+            transition: all 0.3s ease;
         }
+
+        .post-card:hover {
+            box-shadow: var(--card-shadow-hover);
+            transform: translateY(-2px);
+        }
+
+        .post-card h1,
+        .post-card h2,
+        .post-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            margin-top: 1rem;
+            font-weight: 700;
+        }
+
+        .post-card h1:first-child,
+        .post-card h2:first-child,
+        .post-card h3:first-child {
+            margin-top: 0;
+        }
+
+        .post-card h1 a,
+        .post-card h2 a,
+        .post-card h3 a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .post-card h1 a:hover,
+        .post-card h2 a:hover,
+        .post-card h3 a:hover {
+            color: var(--secondary-color);
+        }
+
+        .post-card .text-muted {
+            font-size: 0.9rem;
+            color: #666 !important;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .post-card .badge {
+            font-size: 0.75rem;
+            padding: 0.35rem 0.6rem;
+            margin-right: 0.3rem;
+            margin-bottom: 0.3rem;
+            display: inline-block;
+        }
+
+        .post-card .badge.bg-secondary {
+            background-color: var(--secondary-color) !important;
+        }
+
+        .post-card .lead {
+            font-size: 1.1rem;
+            font-style: italic;
+            color: #666;
+            margin: 1rem 0;
+        }
+
+        .post-content {
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+
+        .post-content p {
+            margin-bottom: 1rem;
+        }
+
+        .post-content h2 {
+            margin-top: 1.5rem;
+            margin-bottom: 0.8rem;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .post-content h3 {
+            margin-top: 1.2rem;
+            margin-bottom: 0.6rem;
+            font-size: 1.25rem;
+            color: var(--primary-color);
+        }
+
+        .post-content code {
+            background-color: #f4f4f4;
+            border-radius: 4px;
+            padding: 0.2rem 0.4rem;
+            color: #d63384;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .post-content pre {
+            background-color: #f4f4f4;
+            border-radius: 4px;
+            padding: 1rem;
+            overflow-x: auto;
+        }
+
+        .post-content blockquote {
+            border-left: 4px solid var(--secondary-color);
+            padding-left: 1rem;
+            margin: 1.5rem 0;
+            color: #666;
+            font-style: italic;
+        }
+
+        .card {
+            border: none;
+            box-shadow: var(--card-shadow);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: var(--card-shadow-hover);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #34495e 100%);
+            color: white;
+            border: none;
+            padding: 1rem 1.25rem;
+        }
+
+        .card-header h5 {
+            margin: 0;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .card-body {
+            padding: 1.25rem;
+        }
+
+        .card-body a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: block;
+            padding: 0.5rem 0;
+        }
+
+        .card-body a:hover {
+            color: var(--accent-color);
+        }
+
         .footer {
-            background-color: #f8f9fa;
-            padding: 1rem 0;
+            background: linear-gradient(135deg, var(--primary-color) 0%, #34495e 100%);
+            color: white;
+            padding: 2rem 0;
             text-align: center;
-            margin-top: 2rem;
+            margin-top: 3rem;
+            border-top: 3px solid var(--secondary-color);
+        }
+
+        .footer p {
+            margin: 0;
+            opacity: 0.9;
+        }
+
+        .pagination .page-link {
+            color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+
+        .pagination .page-link:hover {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+
+        .pagination .page-item.active .page-link {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .header nav {
+                margin-top: 1rem;
+            }
+
+            .header nav a {
+                margin: 0 0.5rem;
+            }
+
+            .post-card {
+                padding: 1.5rem;
+            }
+
+            main {
+                padding: 1rem;
+            }
         }
     </style>
 </head>
@@ -52,12 +308,12 @@
                     <?php if (!empty($config['blog_logo'])): ?>
                         <img src="<?php echo $config['blog_logo']; ?>" alt="<?php echo $config['blog_name']; ?>" style="max-height: 40px;">
                     <?php else: ?>
-                        <a href="<?php echo url('index.Index/index'); ?>"><?php echo $config['blog_name']; ?></a>
+                        <a href="<?php echo url('/index/index//index'); ?>"><?php echo $config['blog_name']; ?></a>
                     <?php endif; ?>
                 </h1>
                 <nav>
-                    <a href="<?php echo url('index.Index/index'); ?>">首页</a> |
-                    <a href="<?php echo url('index.Index/archive'); ?>">归档</a>
+                    <a href="<?php echo url('/index/index//index'); ?>">首页</a> |
+                    <a href="<?php echo url('/index/index//archive'); ?>">归档</a>
                 </nav>
             </div>
             <?php if (!empty($config['blog_subtitle'])): ?>

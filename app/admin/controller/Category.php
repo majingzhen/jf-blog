@@ -15,12 +15,8 @@ class Category extends BaseAdminController
         $categories = CategoryModel::order('created_at', 'desc')->select();
         $title = '分类管理 - JF-Blog 后台';
 
-        View::assign([
-            'title' => $title,
-            'categories' => $categories
-        ]);
 
-        return View::fetch('category/index');
+        return View::fetch('category/index', ['title' => $title, 'categories' => $categories]);
     }
 
     public function create()

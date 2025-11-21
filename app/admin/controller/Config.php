@@ -19,12 +19,8 @@ class Config extends BaseAdminController
         }
 
         $title = '系统配置 - JF-Blog 后台';
-        View::assign([
-            'title' => $title,
-            'config' => $configMap
-        ]);
 
-        return View::fetch('config/index');
+        return View::fetch('config/index', ['title' => $title, 'config' => $configMap]);
     }
 
     public function save()

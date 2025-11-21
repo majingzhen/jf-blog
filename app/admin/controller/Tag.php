@@ -15,12 +15,7 @@ class Tag extends BaseAdminController
         $tags = TagModel::order('created_at', 'desc')->select();
         $title = '标签管理 - JF-Blog 后台';
 
-        View::assign([
-            'title' => $title,
-            'tags' => $tags
-        ]);
-
-        return View::fetch('tag/index');
+        return View::fetch('tag/index', ['title' => $title, 'tags' => $tags]);
     }
 
     public function create()

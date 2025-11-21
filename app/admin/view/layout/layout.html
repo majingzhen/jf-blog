@@ -52,12 +52,12 @@
                     <?php if (!empty($config['blog_logo'])): ?>
                         <img src="<?php echo $config['blog_logo']; ?>" alt="<?php echo $config['blog_name']; ?>" style="max-height: 40px;">
                     <?php else: ?>
-                        <a href="<?php echo url('index.Index/index'); ?>"><?php echo $config['blog_name']; ?></a>
+                        <a href="<?php echo url('/index/index//index'); ?>"><?php echo $config['blog_name']; ?></a>
                     <?php endif; ?>
                 </h1>
                 <nav>
-                    <a href="<?php echo url('index.Index/index'); ?>">首页</a> |
-                    <a href="<?php echo url('index.Index/archive'); ?>">归档</a>
+                    <a href="<?php echo url('/index/index//index'); ?>">首页</a> |
+                    <a href="<?php echo url('/index/index//archive'); ?>">归档</a>
                 </nav>
             </div>
             <?php if (!empty($config['blog_subtitle'])): ?>

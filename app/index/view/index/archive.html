@@ -1,57 +1,77 @@
-<?php
-// view/index/archive.html
-View::share('title', $title ?? '');
-View::share('keywords', $keywords ?? '');
-View::share('description', $description ?? '');
-?>
-
 <!-- 主要内容 -->
-<div class="row">
-    <div class="col-md-8">
-        <h2>文章归档</h2>
-        <?php
-        foreach ($archiveData as $yearMonth => $postsInMonth):
-            $year = substr($yearMonth, 0, 4);
-            $month = substr($yearMonth, 5, 2);
-        ?>
-            <h3><?php echo $year; ?> 年 <?php echo $month; ?> 月</h3>
-            <ul>
-            <?php foreach ($postsInMonth as $post): ?>
-                <li>
-                    <a href="<?php echo url('index.Index/post', ['slug' => $post['slug']]); ?>"><?php echo htmlspecialchars($post['title']); ?></a>
-                    <span class="text-muted">- <?php echo $post['published_at_text']; ?></span>
-                </li>
-            <?php endforeach; ?>
-            </ul>
-        <?php endforeach; ?>
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="post-card">
+            <h2 class="mb-4"><i class="bi bi-archive"></i> 文章归档</h2>
+
+            {php}
+            foreach ($archiveData as $yearMonth => $postsInMonth) {
+                $year = substr($yearMonth, 0, 4);
+                $month = substr($yearMonth, 5, 2);
+            {/php}
+                <div class="mb-5">
+                    <h3 class="text-muted mb-3">
+                        <i class="bi bi-calendar3"></i> {php}echo $year;{/php} 年 {php}echo $month;{/php} 月
+                    </h3>
+                    <ul class="list-group list-group-flush">
+                        {volist name="$postsInMonth" id="post"}
+                            <li class="list-group-item px-0 py-2 border-bottom-0">
+                                <div class="d-flex justify-content-between align-items-start gap-3">
+                                    <div class="flex-grow-1">
+                                        <a href="{:url('/index/index/post', ['slug' => $post['slug']])}" class="text-decoration-none" style="color: #2c3e50; font-weight: 500;">
+                                            {$post.title|htmlspecialchars}
+                                        </a>
+                                    </div>
+                                    <small class="text-muted white-space-nowrap">
+                                        {$post.published_at_text}
+                                    </small>
+                                </div>
+                            </li>
+                        {/volist}
+                    </ul>
+                </div>
+            {php}
+            }
+            {/php}
+        </div>
     </div>
-    <div class="col-md-4">
-        <!-- 侧边栏 -->
-        <div class="card">
+
+    <div class="col-lg-4">
+        <!-- 分类侧边栏 -->
+        <div class="card sticky-top" style="top: 1rem;">
             <div class="card-header">
-                <h5>分类</h5>
+                <h5><i class="bi bi-collection"></i> 分类</h5>
             </div>
             <div class="card-body">
-                <?php
+                {php}
                 $categories = \app\model\Category::select();
-                foreach ($categories as $category):
-                ?>
-                    <div><a href="<?php echo url('index.Index/category', ['slug' => $category['slug']]); ?>"><?php echo htmlspecialchars($category['name']); ?></a></div>
-                <?php endforeach; ?>
+                {/php}
+                {if !empty($categories)}
+                    {volist name="$categories" id="category"}
+                        <a href="{:url('/index/index/category', ['slug' => $category['slug']])}">{$category.name|htmlspecialchars}</a>
+                    {/volist}
+                {else}
+                    <p class="text-muted mb-0">暂无分类</p>
+                {/if}
             </div>
         </div>
 
-        <div class="card mt-3">
+        <!-- 标签侧边栏 -->
+        <div class="card mt-3 sticky-top" style="top: 15rem;">
             <div class="card-header">
-                <h5>标签</h5>
+                <h5><i class="bi bi-tags"></i> 标签</h5>
             </div>
             <div class="card-body">
-                <?php
+                {php}
                 $tags = \app\model\Tag::select();
-                foreach ($tags as $tag):
-                ?>
-                    <a href="<?php echo url('index.Index/tag', ['slug' => $tag['slug']]); ?>" class="badge bg-light text-dark text-decoration-none m-1"><?php echo htmlspecialchars($tag['name']); ?></a>
-                <?php endforeach; ?>
+                {/php}
+                {if !empty($tags)}
+                    {volist name="$tags" id="tag"}
+                        <a href="{:url('/index/index/tag', ['slug' => $tag['slug']])}" class="badge bg-light text-dark text-decoration-none m-1">{$tag.name|htmlspecialchars}</a>
+                    {/volist}
+                {else}
+                    <p class="text-muted mb-0">暂无标签</p>
+                {/if}
             </div>
         </div>
     </div>

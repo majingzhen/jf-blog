@@ -1,66 +1,80 @@
-<?php
-// view/index/post.html
-View::share('title', $title ?? '');
-View::share('keywords', $keywords ?? '');
-View::share('description', $description ?? '');
-?>
-
 <!-- 主要内容 -->
-<div class="row">
-    <div class="col-md-8">
+<div class="row g-4">
+    <div class="col-lg-8">
         <article class="post-card">
-            <h1><?php echo htmlspecialchars($post['title']); ?></h1>
-            <p class="text-muted">
-                发布于 <?php echo $post['published_at_text']; ?>
-                <?php if ($post->category): ?>
-                    | 分类: <a href="<?php echo url('index.Index/category', ['slug' => $post->category['slug']]); ?>"><?php echo htmlspecialchars($post->category['name']); ?></a>
-                <?php endif; ?>
-            </p>
-            <?php if ($post['summary']): ?>
-                <p class="lead"><?php echo htmlspecialchars($post['summary']); ?></p>
-            <?php endif; ?>
-            <div class="post-content mt-3">
-                <?php echo $post['content']; ?> <!-- 这里直接输出内容，如果是 Markdown 需要转换 -->
+            <header class="mb-4">
+                <h1>{$post.title|htmlspecialchars}</h1>
+                <div class="text-muted d-flex flex-wrap align-items-center gap-3">
+                    <span><i class="bi bi-calendar-event"></i> {$post.published_at_text}</span>
+                    {if $post.category}
+                        <span><i class="bi bi-tag"></i> <a href="{:url('/index/index/category', ['slug' => $post.category['slug']])}" style="color: #666; text-decoration: none;">{$post.category.name|htmlspecialchars}</a></span>
+                    {/if}
+                </div>
+            </header>
+
+            {if $post.summary}
+                <p class="lead">{$post.summary|htmlspecialchars}</p>
+            {/if}
+
+            <div class="post-content">
+                {$post.content}
             </div>
-            <div class="mt-3">
-                <?php if ($post->tags && !$post->tags->isEmpty()): ?>
-                    <small class="text-muted">
-                        标签:
-                        <?php foreach ($post->tags as $tag): ?>
-                            <a href="<?php echo url('index.Index/tag', ['slug' => $tag['slug']]); ?>" class="badge bg-secondary text-decoration-none"><?php echo htmlspecialchars($tag['name']); ?></a>
-                        <?php endforeach; ?>
-                    </small>
-                <?php endif; ?>
+
+            {if $post.tags && !$post.tags->isEmpty()}
+                <footer class="mt-4 pt-4 border-top">
+                    <div class="mb-3">
+                        <strong>标签:</strong>
+                        {volist name="$post.tags" id="tag"}
+                            <a href="{:url('/index/index/tag', ['slug' => $tag['slug']])}" class="badge bg-secondary text-decoration-none">{$tag.name|htmlspecialchars}</a>
+                        {/volist}
+                    </div>
+                </footer>
+            {/if}
+
+            <div class="mt-4 pt-4 border-top">
+                <a href="{:url('/index/index//index')}" class="btn btn-outline-secondary btn-sm">
+                    <i class="bi bi-arrow-left"></i> 返回首页
+                </a>
             </div>
         </article>
     </div>
-    <div class="col-md-4">
-        <!-- 侧边栏 -->
-        <div class="card">
+
+    <div class="col-lg-4">
+        <!-- 分类侧边栏 -->
+        <div class="card sticky-top" style="top: 1rem;">
             <div class="card-header">
-                <h5>分类</h5>
+                <h5><i class="bi bi-collection"></i> 分类</h5>
             </div>
             <div class="card-body">
-                <?php
+                {php}
                 $categories = \app\model\Category::select();
-                foreach ($categories as $category):
-                ?>
-                    <div><a href="<?php echo url('index.Index/category', ['slug' => $category['slug']]); ?>"><?php echo htmlspecialchars($category['name']); ?></a></div>
-                <?php endforeach; ?>
+                {/php}
+                {if !empty($categories)}
+                    {volist name="$categories" id="category"}
+                        <a href="{:url('/index/index/category', ['slug' => $category['slug']])}">{$category.name|htmlspecialchars}</a>
+                    {/volist}
+                {else}
+                    <p class="text-muted mb-0">暂无分类</p>
+                {/if}
             </div>
         </div>
 
-        <div class="card mt-3">
+        <!-- 标签侧边栏 -->
+        <div class="card mt-3 sticky-top" style="top: 15rem;">
             <div class="card-header">
-                <h5>标签</h5>
+                <h5><i class="bi bi-tags"></i> 标签</h5>
             </div>
             <div class="card-body">
-                <?php
+                {php}
                 $tags = \app\model\Tag::select();
-                foreach ($tags as $tag):
-                ?>
-                    <a href="<?php echo url('index.Index/tag', ['slug' => $tag['slug']]); ?>" class="badge bg-light text-dark text-decoration-none m-1"><?php echo htmlspecialchars($tag['name']); ?></a>
-                <?php endforeach; ?>
+                {/php}
+                {if !empty($tags)}
+                    {volist name="$tags" id="tag"}
+                        <a href="{:url('/index/index/tag', ['slug' => $tag['slug']])}" class="badge bg-light text-dark text-decoration-none m-1">{$tag.name|htmlspecialchars}</a>
+                    {/volist}
+                {else}
+                    <p class="text-muted mb-0">暂无标签</p>
+                {/if}
             </div>
         </div>
     </div>

@@ -1,56 +1,69 @@
-<?php
-// view/index/category.html
-View::share('title', $title ?? '');
-View::share('keywords', $keywords ?? '');
-View::share('description', $description ?? '');
-?>
-
 <!-- 主要内容 -->
-<div class="row">
-    <div class="col-md-8">
-        <h2>分类: <?php echo htmlspecialchars($category['name']); ?></h2>
-        <?php foreach ($posts as $post): ?>
-        <div class="post-card">
-            <h3><a href="<?php echo url('index.Index/post', ['slug' => $post['slug']]); ?>"><?php echo htmlspecialchars($post['title']); ?></a></h3>
-            <p class="text-muted">发布于 <?php echo $post['published_at_text']; ?></p>
-            <?php if ($post['summary']): ?>
-                <p><?php echo htmlspecialchars($post['summary']); ?></p>
-            <?php endif; ?>
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="post-card mb-4">
+            <h2><i class="bi bi-tag"></i> 分类: {$category.name|htmlspecialchars}</h2>
         </div>
-        <?php endforeach; ?>
+
+        {volist name="posts" id="post"}
+        <div class="post-card">
+            <h3><a href="{:url('/index/index/post', ['slug' => $post['slug']])}">{$post.title|htmlspecialchars}</a></h3>
+            <p class="text-muted mb-2">
+                <i class="bi bi-calendar-event"></i> {$post.published_at_text}
+            </p>
+            {if $post.summary}
+                <p class="mb-3">{$post.summary|htmlspecialchars}</p>
+            {/if}
+            <a href="{:url('/index/index/post', ['slug' => $post['slug']])}" class="btn btn-sm btn-outline-primary">
+                <i class="bi bi-arrow-right"></i> 阅读全文
+            </a>
+        </div>
+        {/volist}
 
         <!-- 分页 -->
-        <div class="d-flex justify-content-center">
-            <?php echo $posts->render(); ?>
+        {if !empty($posts)}
+        <div class="d-flex justify-content-center mt-4">
+            {$posts->render()}
         </div>
+        {/if}
     </div>
-    <div class="col-md-4">
-        <!-- 侧边栏 -->
-        <div class="card">
+
+    <div class="col-lg-4">
+        <!-- 分类侧边栏 -->
+        <div class="card sticky-top" style="top: 1rem;">
             <div class="card-header">
-                <h5>分类</h5>
+                <h5><i class="bi bi-collection"></i> 分类</h5>
             </div>
             <div class="card-body">
-                <?php
+                {php}
                 $categories = \app\model\Category::select();
-                foreach ($categories as $cat):
-                ?>
-                    <div><a href="<?php echo url('index.Index/category', ['slug' => $cat['slug']]); ?>" <?php echo $cat['id'] == $category['id'] ? 'class="fw-bold"' : ''; ?>><?php echo htmlspecialchars($cat['name']); ?></a></div>
-                <?php endforeach; ?>
+                {/php}
+                {if !empty($categories)}
+                    {volist name="$categories" id="cat"}
+                        <a href="{:url('/index/index/category', ['slug' => $cat['slug']])}" {if $cat.id == $category['id']}style="font-weight: bold; color: #3498db;"{/if}>{$cat.name|htmlspecialchars}</a>
+                    {/volist}
+                {else}
+                    <p class="text-muted mb-0">暂无分类</p>
+                {/if}
             </div>
         </div>
 
-        <div class="card mt-3">
+        <!-- 标签侧边栏 -->
+        <div class="card mt-3 sticky-top" style="top: 15rem;">
             <div class="card-header">
-                <h5>标签</h5>
+                <h5><i class="bi bi-tags"></i> 标签</h5>
             </div>
             <div class="card-body">
-                <?php
+                {php}
                 $tags = \app\model\Tag::select();
-                foreach ($tags as $tag):
-                ?>
-                    <a href="<?php echo url('index.Index/tag', ['slug' => $tag['slug']]); ?>" class="badge bg-light text-dark text-decoration-none m-1"><?php echo htmlspecialchars($tag['name']); ?></a>
-                <?php endforeach; ?>
+                {/php}
+                {if !empty($tags)}
+                    {volist name="$tags" id="tag"}
+                        <a href="{:url('/index/index/tag', ['slug' => $tag['slug']])}" class="badge bg-light text-dark text-decoration-none m-1">{$tag.name|htmlspecialchars}</a>
+                    {/volist}
+                {else}
+                    <p class="text-muted mb-0">暂无标签</p>
+                {/if}
             </div>
         </div>
     </div>
