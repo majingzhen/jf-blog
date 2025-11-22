@@ -309,15 +309,15 @@
                         <?php if (!empty($config['blog_logo'])): ?>
                             <img src="<?php echo $config['blog_logo']; ?>" alt="<?php echo $config['blog_name']; ?>" style="max-height: 40px;">
                         <?php else: ?>
-                            <a href="<?php echo url('/index/index//index'); ?>"><?php echo $config['blog_name']; ?></a>
+                            <a href="<?php echo url('/index/index/index'); ?>"><?php echo $config['blog_name']; ?></a>
                         <?php endif; ?>
                     </h1>
                 </div>
 
                 <div class="d-flex flex-column align-items-end">
                     <nav>
-                        <a href="<?php echo url('/index/index//index'); ?>">首页</a> |
-                        <a href="<?php echo url('/index/index//archive'); ?>">归档</a> |
+                        <a href="<?php echo url('/index/index/index'); ?>">首页</a> |
+                        <a href="<?php echo url('/index/index/archive'); ?>">归档</a> |
                         <a href="<?php echo url('/index/index/search'); ?>">搜索</a>
                     </nav>
 
@@ -344,5 +344,61 @@
             <p>&copy; <?php echo date('Y'); ?> <?php echo $config['blog_name']; ?>. All rights reserved.</p>
         </div>
     </footer>
+    <script>
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            // 为所有卡片添加淡入动画效果
+            const cards = document.querySelectorAll('.post-card, .card');
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(10px)';
+                    card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 100);
+                }, index * 100);
+            });
+
+            // 平滑滚动
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // 按钮悬停效果增强
+            const buttons = document.querySelectorAll('button, .btn');
+            buttons.forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.05)';
+                    this.style.transition = 'transform 0.3s ease';
+                });
+                button.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1)';
+                });
+            });
+
+            // 响应式菜单切换 (如果需要)
+            const menuToggle = document.querySelector('.navbar-toggler');
+            if (menuToggle) {
+                menuToggle.addEventListener('click', function() {
+                    const navbar = this.closest('.navbar');
+                    const collapse = navbar.querySelector('.navbar-collapse');
+                    if (collapse) {
+                        collapse.classList.toggle('show');
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>

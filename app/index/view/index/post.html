@@ -1,39 +1,52 @@
+{extend name="layout/layout" /}
+
+{block name="content"}
 <!-- 主要内容 -->
-<div class="row g-4">
+<div class="row g-6">
     <div class="col-lg-8">
-        <article class="post-card">
-            <header class="mb-4">
-                <h1>{$post.title|htmlspecialchars}</h1>
+        <article class="post-card bg-white rounded-lg shadow-sm p-6 mb-6">
+            <header class="mb-6 pb-4 border-b border-gray-200">
+                <h1 class="text-2xl md:text-3xl font-bold mb-4 text-gray-800">{$post.title|htmlspecialchars}</h1>
                 <div class="text-muted d-flex flex-wrap align-items-center gap-3">
-                    <span><i class="bi bi-calendar-event"></i> {$post.published_at_text}</span>
+                    <span class="flex items-center"><i class="bi bi-calendar-event text-primary me-1"></i> {$post.published_at_text}</span>
                     {if $post.category}
-                        <span><i class="bi bi-tag"></i> <a href="{:url('/index/index/category', ['slug' => $post.category['slug']])}" style="color: #666; text-decoration: none;">{$post.category.name|htmlspecialchars}</a></span>
+                        <span class="flex items-center"><i class="bi bi-folder2 text-success me-1"></i> 
+                            <a href="{:url('/index/index/category', ['slug' => $post.category['slug']])}" class="text-secondary hover-primary transition-all">
+                                {$post.category.name|htmlspecialchars}
+                            </a>
+                        </span>
                     {/if}
                 </div>
             </header>
 
             {if $post.summary}
-                <p class="lead">{$post.summary|htmlspecialchars}</p>
+                <div class="mb-6 p-4 bg-gray-50 rounded-lg border-l-4 border-primary">
+                    <p class="lead text-gray-700">{$post.summary|htmlspecialchars}</p>
+                </div>
             {/if}
 
-            <div class="post-content">
+            <div class="post-content prose prose-lg max-w-none">
                 {$post.content}
             </div>
 
             {if $post.tags && !$post.tags->isEmpty()}
-                <footer class="mt-4 pt-4 border-top">
-                    <div class="mb-3">
-                        <strong>标签:</strong>
-                        {volist name="$post.tags" id="tag"}
-                            <a href="{:url('/index/index/tag', ['slug' => $tag['slug']])}" class="badge bg-secondary text-decoration-none">{$tag.name|htmlspecialchars}</a>
-                        {/volist}
+                <footer class="mt-8 pt-6 border-t border-gray-200">
+                    <div class="mb-4">
+                        <strong class="text-gray-700">标签:</strong>
+                        <div class="mt-2 flex-wrap gap-2">
+                            {volist name="$post.tags" id="tag"}
+                                <a href="{:url('/index/index/tag', ['slug' => $tag['slug']])}" class="badge bg-secondary text-white text-decoration-none hover:bg-secondary/90 transition-all">
+                                    <i class="bi bi-tag me-1"></i>{$tag.name|htmlspecialchars}
+                                </a>
+                            {/volist}
+                        </div>
                     </div>
                 </footer>
             {/if}
 
-            <div class="mt-4 pt-4 border-top">
-                <a href="{:url('/index/index//index')}" class="btn btn-outline-secondary btn-sm">
-                    <i class="bi bi-arrow-left"></i> 返回首页
+            <div class="mt-6 pt-4 border-t border-gray-200">
+                <a href="{:url('/index/index/index')}" class="btn btn-primary btn-sm hover:shadow-md transition-all">
+                    <i class="bi bi-arrow-left me-1"></i> 返回首页
                 </a>
             </div>
         </article>
@@ -42,56 +55,237 @@
     <div class="col-lg-4">
         <!-- 博客统计信息 -->
         <div class="card sticky-top" style="top: 1rem;">
-            <div class="card-header">
-                <h5><i class="bi bi-info-circle"></i> 博客信息</h5>
+            <div class="card-header bg-gradient-primary">
+                <h5 class="text-white m-0"><i class="bi bi-info-circle me-2"></i> 博客信息</h5>
             </div>
             <div class="card-body">
-                <ul class="list-unstyled">
-                    <li><i class="bi bi-file-text"></i> 文章总数: <span class="badge bg-primary">{$blog_stats.total_posts}</span></li>
-                    <li><i class="bi bi-folder"></i> 分类总数: <span class="badge bg-success">{$blog_stats.total_categories}</span></li>
-                    <li><i class="bi bi-tags"></i> 标签总数: <span class="badge bg-warning text-dark">{$blog_stats.total_tags}</span></li>
+                <ul class="list-unstyled space-y-3">
+                    <li class="d-flex items-center justify-between">
+                        <span class="flex items-center"><i class="bi bi-file-text text-primary me-2"></i> 文章总数</span>
+                        <span class="badge bg-primary px-3 py-1">{$blog_stats.total_posts}</span>
+                    </li>
+                    <li class="d-flex items-center justify-between">
+                        <span class="flex items-center"><i class="bi bi-folder2 text-success me-2"></i> 分类总数</span>
+                        <span class="badge bg-success px-3 py-1">{$blog_stats.total_categories}</span>
+                    </li>
+                    <li class="d-flex items-center justify-between">
+                        <span class="flex items-center"><i class="bi bi-tags text-warning me-2"></i> 标签总数</span>
+                        <span class="badge bg-warning text-dark px-3 py-1">{$blog_stats.total_tags}</span>
+                    </li>
                 </ul>
             </div>
         </div>
 
         <!-- 分类侧边栏 -->
-        <div class="card mt-3 sticky-top" style="top: 8rem;">
-            <div class="card-header">
-                <h5><i class="bi bi-collection"></i> 分类</h5>
+        <div class="card mt-4">
+            <div class="card-header bg-gradient-primary">
+                <h5 class="text-white m-0"><i class="bi bi-collection me-2"></i> 分类</h5>
             </div>
             <div class="card-body">
                 {php}
                 $categories = \app\model\Category::select();
                 {/php}
                 {if !empty($categories)}
-                    <div class="d-flex flex-wrap">
+                    <div class="category-cloud">
                         {volist name="$categories" id="category"}
-                            <a href="{:url('/index/index/category', ['slug' => $category['slug']])}" class="me-2 mb-2" style="display: inline-block;">{$category.name|htmlspecialchars}</a>
+                            <a href="{:url('/index/index/category', ['slug' => $category['slug']])}" class="category-tag py-1 px-3 rounded-full bg-white border border-gray-200 text-gray-700 text-decoration-none transition-all hover:bg-primary hover:text-white hover:border-primary">
+                                {$category.name|htmlspecialchars}
+                            </a>
                         {/volist}
                     </div>
                 {else}
-                    <p class="text-muted mb-0">暂无分类</p>
+                    <div class="text-center py-4">
+                        <p class="text-muted mb-0">暂无分类</p>
+                    </div>
                 {/if}
             </div>
         </div>
 
         <!-- 标签侧边栏 -->
-        <div class="card mt-3 sticky-top" style="top: 18rem;">
-            <div class="card-header">
-                <h5><i class="bi bi-tags"></i> 热门标签</h5>
+        <div class="card mt-4">
+            <div class="card-header bg-gradient-primary">
+                <h5 class="text-white m-0"><i class="bi bi-tags me-2"></i> 热门标签</h5>
             </div>
             <div class="card-body">
                 {php}
                 $tags = \app\model\Tag::limit(20)->select();
                 {/php}
                 {if !empty($tags)}
-                    {volist name="$tags" id="tag"}
-                        <a href="{:url('/index/index/tag', ['slug' => $tag['slug']])}" class="badge bg-light text-dark text-decoration-none m-1">{$tag.name|htmlspecialchars}</a>
-                    {/volist}
+                    <div class="tag-cloud">
+                        {volist name="$tags" id="tag"}
+                            <a href="{:url('/index/index/tag', ['slug' => $tag['slug']])}" class="badge bg-white border border-gray-200 text-gray-700 text-decoration-none m-1 hover:bg-secondary hover:text-white hover:border-secondary transition-all">
+                                {$tag.name|htmlspecialchars}
+                            </a>
+                        {/volist}
+                    </div>
                 {else}
-                    <p class="text-muted mb-0">暂无标签</p>
+                    <div class="text-center py-4">
+                        <p class="text-muted mb-0">暂无标签</p>
+                    </div>
                 {/if}
             </div>
         </div>
     </div>
 </div>
+
+<style>
+    /* 文章内容样式增强 */
+    .post-content {
+        line-height: 1.8;
+        color: #333;
+    }
+    
+    .post-content h1, 
+    .post-content h2, 
+    .post-content h3, 
+    .post-content h4, 
+    .post-content h5, 
+    .post-content h6 {
+        margin-top: 1.5em;
+        margin-bottom: 0.8em;
+        color: #2d3748;
+        font-weight: 600;
+    }
+    
+    .post-content p {
+        margin-bottom: 1.2em;
+    }
+    
+    .post-content ul, 
+    .post-content ol {
+        margin-bottom: 1.2em;
+        padding-left: 1.5rem;
+    }
+    
+    .post-content li {
+        margin-bottom: 0.5em;
+    }
+    
+    .post-content a {
+        color: var(--primary-color);
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+    
+    .post-content a:hover {
+        color: var(--secondary-color);
+        text-decoration: underline;
+    }
+    
+    .post-content img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 0.375rem;
+        margin: 1.5em 0;
+    }
+    
+    .post-content blockquote {
+        margin: 1.5em 0;
+        padding: 0.5em 1.5em;
+        border-left: 4px solid var(--primary-color);
+        background-color: #f8f9fa;
+        font-style: italic;
+    }
+    
+    .post-content code {
+        padding: 0.2em 0.4em;
+        background-color: #f1f3f4;
+        border-radius: 0.25em;
+        font-family: 'Courier New', monospace;
+        font-size: 0.9em;
+    }
+    
+    .post-content pre {
+        margin: 1.5em 0;
+        padding: 1em;
+        background-color: #f8f9fa;
+        border-radius: 0.375rem;
+        overflow-x: auto;
+        border: 1px solid #e9ecef;
+    }
+    
+    .post-content pre code {
+        background-color: transparent;
+        padding: 0;
+    }
+    
+    /* 通用样式辅助类 */
+    .space-y-3 > * + * {
+        margin-top: 0.75rem;
+    }
+    
+    .text-gray-700 {
+        color: #4a5568;
+    }
+    
+    .text-gray-800 {
+        color: #2d3748;
+    }
+    
+    .text-gray-500 {
+        color: #6b7280;
+    }
+    
+    .border-gray-200 {
+        border-color: #e5e7eb;
+    }
+    
+    .bg-gray-50 {
+        background-color: #f9fafb;
+    }
+    
+    .hover-primary:hover {
+        color: var(--primary-color);
+    }
+    
+    .bg-gradient-primary {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    }
+    
+    .transition-all {
+        transition: all 0.3s ease;
+    }
+    
+    .hover-shadow-md:hover {
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+    
+    .flex-wrap {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    
+    .gap-2 {
+        gap: 0.5rem;
+    }
+    
+    .category-cloud {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    
+    .category-tag {
+        display: inline-flex;
+        align-items: center;
+        margin-bottom: 0.5rem;
+    }
+    
+    .tag-cloud {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    
+    /* 响应式优化 */
+    @media (max-width: 768px) {
+        .post-card {
+            padding: 1.5rem;
+        }
+        
+        .post-card h1 {
+            font-size: 1.6rem;
+        }
+    }
+</style>
+{/block}
