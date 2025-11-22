@@ -64,5 +64,6 @@ Route::group('admin', function () {
 
         // 上传接口
         Route::post('/upload/image', 'admin/Upload/image');
+        Route::post('/upload/logo', 'admin/Upload/logo');
     }); // 登录验证由 BaseAdminController 处理
 });
